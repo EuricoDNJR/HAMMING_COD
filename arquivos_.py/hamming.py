@@ -1,6 +1,7 @@
 import random
 import math
 from itertools import combinations
+
 xs = []
 palavra_NaN = []
 x = []
@@ -37,11 +38,13 @@ def operacao_xor(x, palavra):
                         xor = '1'
                     else:
                         xor = '0'
-                aux_xs.append(new_x[k] - 1)
+                aux_xs.append(new_x[k] - 1)  # pegando os indices dos M's
 
-            palavra[i] = xor
-            aux_xs.append(i)
-            xs.append(aux_xs)
+            palavra[i] = xor  # atribuindo o xor calculado ao X na palavra
+            aux_xs.append(i)  # pegando o indice do X
+            xs.append(aux_xs)  # colocando os M's e o X em sublistas para serem calculadas as paridades
+            print(aux_xs)
+            print(xs)
             aux_xs = []
             new_x = []
     return palavra
@@ -105,7 +108,7 @@ class Hamming:
                         exp += 1
                         m.append(i)
                 x.append(cont)
-                x.append(combina(m, cont))
+                x.append(combina(m, cont))  # pegando os indices e suas decomposições
                 exp = 0
                 m = []
         self._palavra = operacao_xor(x, self._palavra)
@@ -132,19 +135,19 @@ class Hamming:
     def validacao(self):
         paridade = 0
         binario = []
-        for i in range(len(xs)):
-            for j in xs[i]:
+        for i in range(len(xs)):  # percorrendo pelos P's formados
+            for j in xs[i]:  # somando todos os valores dos indices
                 paridade += int(self._palavra[j])
             if paridade % 2 == 0:
-                binario.append('0')
+                binario.append('0')  # adicionando cada paridade calculada em uma lista
             else:
                 binario.append('1')
             paridade = 0
-        if '1' in binario:
+        if '1' in binario:  # caso haja um impar
             print("\nHouve um erro na transmissao!\n")
             exp = 0
             tot = 0
-            while 1:
+            while 1:  # apenas transformando o binario em inteiro
                 tot += pow(2, exp) * int(binario[exp])
                 if exp == len(binario) - 1:
                     break
@@ -174,5 +177,3 @@ class Hamming:
             print("Palavra antes: ", "".join(self._palavra))
             self._palavra[pos] = '1'
             print("Palavra depois: ", "".join(self._palavra))
-
-
